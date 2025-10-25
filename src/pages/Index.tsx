@@ -69,7 +69,47 @@ const Index = () => {
               Добавить первую работу
             </Button>
           </div>
-        ) : null}
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {skulls.map((skull, index) => (
+              <Card 
+                key={skull.id} 
+                className="overflow-hidden bg-card border-border shadow-sm hover:shadow-md transition-all duration-300 animate-scale-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="aspect-square overflow-hidden">
+                  <img 
+                    src={skull.imageUrl} 
+                    alt={skull.title}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  />
+                </div>
+                
+                <div className="p-6 space-y-4">
+                  <h2 className="text-2xl font-semibold text-card-foreground">
+                    {skull.title}
+                  </h2>
+                  
+                  <p className="text-muted-foreground leading-relaxed">
+                    {skull.description}
+                  </p>
+                  
+                  {skull.linkUrl && skull.linkUrl !== '#' && (
+                    <Button 
+                      asChild 
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                    >
+                      <a href={skull.linkUrl} target="_blank" rel="noopener noreferrer">
+                        {skull.linkText}
+                        <Icon name="ArrowRight" className="ml-2" size={16} />
+                      </a>
+                    </Button>
+                  )}
+                </div>
+              </Card>
+            ))}
+          </div>
+        )}
       </main>
 
       <footer className="py-8 text-center text-muted-foreground border-t border-border">
