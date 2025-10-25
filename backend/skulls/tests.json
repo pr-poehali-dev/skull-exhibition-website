@@ -1,0 +1,34 @@
+{
+  "tests": [
+    {
+      "name": "Get all skulls",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "skulls": "array"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Add new skull with auth",
+      "method": "POST",
+      "path": "/",
+      "headers": {
+        "X-Admin-Auth": "skull_admin_secret_2024"
+      },
+      "body": {
+        "title": "Test Skull",
+        "description": "Test description",
+        "imageUrl": "https://example.com/image.jpg",
+        "linkUrl": "https://example.com",
+        "linkText": "View"
+      },
+      "expectedStatus": 201,
+      "expectedBody": {
+        "success": true
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
