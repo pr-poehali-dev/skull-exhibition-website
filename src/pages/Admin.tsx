@@ -17,11 +17,12 @@ const Admin = () => {
   const [isLoading, setIsLoading] = useState(false);
   
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    imageUrl: "",
+    id: 1,
+    title: "Череп в цветах",
+    description: "Яркий арт-объект с мексиканскими мотивами Dia de los Muertos. Чёрный череп украшен разноцветными узорами, пионом и золотыми акцентами. Сочетание жизни и смерти в одном произведении.",
+    imageUrl: "https://cdn.poehali.dev/files/8f32bc02-2279-4dc6-8206-dad69a15a17b.jpg",
     linkUrl: "",
-    linkText: "Подробнее"
+    linkText: "Заказать"
   });
   
   const { toast } = useToast();
@@ -50,7 +51,7 @@ const Admin = () => {
 
     try {
       const response = await fetch(API_URL, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'X-Admin-Auth': 'skull_admin_secret_2024'
@@ -61,7 +62,7 @@ const Admin = () => {
       if (response.ok) {
         toast({
           title: "Успешно!",
-          description: "Новая работа добавлена в галерею"
+          description: "Работа обновлена"
         });
         
         setFormData({

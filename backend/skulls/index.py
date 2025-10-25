@@ -6,7 +6,7 @@ from psycopg2.extras import RealDictCursor
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
-    Business: API для управления галереей черепов (получение списка, добавление)
+    Business: API для управления галереей черепов (получение списка, добавление, обновление)
     Args: event с httpMethod, body, queryStringParameters, headers
           context с request_id
     Returns: HTTP response с данными черепов или статусом операции
@@ -18,7 +18,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'statusCode': 200,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
                 'Access-Control-Allow-Headers': 'Content-Type, X-Admin-Auth',
                 'Access-Control-Max-Age': '86400'
             },
@@ -101,6 +101,48 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'statusCode': 201,
                 'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
                 'body': json.dumps({'success': True, 'id': new_id}),
+                'isBase64Encoded': False
+            }
+        
+        elif method == 'PUT':
+            headers = event.get('headers', {})
+            admin_auth = headers.get('X-Admin-Auth') or headers.get('x-admin-auth')
+            
+            if not admin_auth or admin_auth != 'skull_admin_secret_2024':
+                return {
+                    'statusCode': 401,
+                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                    'body': json.dumps({'error': 'Unauthorized'}),
+                    'isBase64Encoded': False
+                }
+            
+            body_data = json.loads(event.get('body', '{}'))
+            skull_id = body_data.get('id')
+            title = body_data.get('title')
+            description = body_data.get('description')
+            image_url = body_data.get('imageUrl')
+            link_url = body_data.get('linkUrl', '#')
+            link_text = body_data.get('linkText', 'Подробнее')
+            
+            if not skull_id:
+                return {
+                    'statusCode': 400,
+                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                    'body': json.dumps({'error': 'Missing skull id'}),
+                    'isBase64Encoded': False
+                }
+            
+            with conn.cursor() as cur:
+                cur.execute(
+                    'UPDATE skulls SET title = %s, description = %s, image_url = %s, link_url = %s, link_text = %s WHERE id = %s',
+                    (title, description, image_url, link_url, link_text, skull_id)
+                )
+                conn.commit()
+            
+            return {
+                'statusCode': 200,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'success': True}),
                 'isBase64Encoded': False
             }
         
