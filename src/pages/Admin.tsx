@@ -22,7 +22,7 @@ const Admin = () => {
     description: "Яркий арт-объект с мексиканскими мотивами Dia de los Muertos. Чёрный череп украшен разноцветными узорами, пионом и золотыми акцентами. Сочетание жизни и смерти в одном произведении.",
     imageUrl: "https://cdn.poehali.dev/files/8f32bc02-2279-4dc6-8206-dad69a15a17b.jpg",
     linkUrl: "",
-    linkText: "Заказать"
+    linkText: "Заинтересован"
   });
   
   const { toast } = useToast();
@@ -66,11 +66,12 @@ const Admin = () => {
         });
         
         setFormData({
-          title: "",
-          description: "",
-          imageUrl: "",
+          id: 1,
+          title: "Череп в цветах",
+          description: "Яркий арт-объект с мексиканскими мотивами Dia de los Muertos. Чёрный череп украшен разноцветными узорами, пионом и золотыми акцентами. Сочетание жизни и смерти в одном произведении.",
+          imageUrl: "https://cdn.poehali.dev/files/8f32bc02-2279-4dc6-8206-dad69a15a17b.jpg",
           linkUrl: "",
-          linkText: "Подробнее"
+          linkText: "Заинтересован"
         });
         
         setTimeout(() => navigate("/"), 1500);
