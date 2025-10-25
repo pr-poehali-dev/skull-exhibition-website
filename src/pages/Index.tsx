@@ -25,7 +25,8 @@ const Index = () => {
       try {
         const response = await fetch(API_URL);
         const data = await response.json();
-        setSkulls(data.skulls || []);
+        const filteredSkulls = (data.skulls || []).filter((skull: SkullArtwork) => skull.id === 1);
+        setSkulls(filteredSkulls);
       } catch (error) {
         console.error("Failed to fetch skulls:", error);
       } finally {
