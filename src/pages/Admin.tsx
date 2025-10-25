@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import Icon from "@/components/ui/icon";
 import { useNavigate } from "react-router-dom";
 
-const ADMIN_PASSWORD = "skull2024";
+const ADMIN_PASSWORD = "Deadball25102025";
 const API_URL = "https://functions.poehali.dev/8ccfdb62-48d9-421d-a58f-4e9fac85790f";
 
 const Admin = () => {
